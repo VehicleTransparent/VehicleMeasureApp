@@ -56,6 +56,7 @@ class Measure:
             self.pulse_duration = self.pulse_end - self.pulse_start
             self.distance = (self.pulse_duration * 34000)/2
             self.distance = round(self.distance, 2)
-            self.distance = [self.distance if self.time_status == Measure.__TIME_TRUE else Measure.__TIME_FAKE in [0]].pop()
+            self.distance = [self.distance if self.time_status == Measure.__TIME_TRUE
+                             else Measure.__TIME_FAKE in [0]].pop()
         return self.distance
 

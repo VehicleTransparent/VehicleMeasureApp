@@ -13,7 +13,7 @@ from time import sleep
 
 
 class ServoMotor:
-    def __init__(self, pin_number=17,correction=0):
+    def __init__(self, pin_number=17, correction=0):
         self.pin_number = pin_number
         self.myCorrection = correction
         max_pw = (2.0 + self.myCorrection) / 1000
