@@ -1,17 +1,43 @@
+import time, cv2, sys
 
-import time
-from mathematics import mathlib
-import RPi.GPIO as GPIO
-class Angles:
-    def __init__(self, servo_pin):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(servo_pin, GPIO.OUT)
-        self.servo_pin = servo_pin
-        
-        # GPIO 17 for PWM with 50Hz
-        self.pwm_ch = GPIO.PWM(servo_pin, 50) 
-        self.pwm_ch.start(2.5) # Initialization
-        
-    def set_angle(self, angle):
-        self.pwm_ch.ChangeDutyCycle(mathlib.map_values_ranges(angle, 180, 0, 2, 12))
-        time.sleep(0.5)
+from distances.dist_measure import *
+from distances.dist_angle import *
+from threading import Thread
+from communication.com_serial import SerialComm
+
+
+class BackAppRPi:
+    def __init__(self):
+        self.servo_obj_list = Angles(servo_pin=18)
+        self.us_obj_list = Measure(trig=27, echo=22)
+
+        self.ser_get_angle = SerialComm(port="/dev/ttyUSB0", name="Dist_Fetcher", baudrate=115200)
+        self.t_get_dist_asynch = Thread(target=self.angle_fetcher, args=[], daemon=True)
+        self.angle_list = [-1]
+        self.dist_list = [-1]
+        self.thread_activated = False
+
+    def orinet(self):
+        while True:
+            if not self.thread_activated:
+                self.thread_activated = True
+                self.t_get_dist_asynch.start()
+
+            if self.angle_list[0] != -1:
+                print(f"Angle to be applied on Servo : {self.angle_list[0]}")
+                self.servo_obj_list[0].set_angle(self.angle_list[0])
+                self.dist_list[0] = self.us_obj_list[0].distance_read()
+
+            print(f'angle_list {self.angle_list}')
+            print(f'dist_list {self.dist_list}')
+            self.ser_get_angle.send_query(self.dist_list)
+            time.sleep(1)
+
+    def angle_fetcher(self):
+        while True:
+            self.angle_list = [section for section in self.ser_get_angle.receive_query()]
+            time.sleep(0.3)
+
+
+run = BackAppRPi()
+run.orinet()

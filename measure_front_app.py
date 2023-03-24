@@ -1,6 +1,4 @@
 import time, cv2, sys
-print('Python %s on %s' % (sys.version, sys.platform))
-sys.path.extend(['//home//pi//Documents//Release_1//VehiclesTransparent'])
 
 from distances.dist_measure import *
 from distances.dist_angle import *
