@@ -30,23 +30,24 @@ class FrontAppRPi:
 
             print(f'angle_list {self.angle_list}')
             print(f'dist_list {self.dist_list}')
-            self.ser_get_angle.send_query(self.dist_list)
+            self.ser_get_angle.send_query({"DISTANCE": self.dist_list})
             time.sleep(1)
 
     def angle_fetcher(self):
         while True:
             received = self.ser_get_angle.receive_query()
-            if received["ORIENT"] != [-1, -1, -1]:
-                last_received = received
-                self.angle_list = [section for section in last_received["ORIENT"]]
-                for i in range(0, 3):
-                    if self.angle_list[i] < 0:
-                        if i == 0:
-                            self.angle_list[i] = 45
-                        elif i == 1:
-                            self.angle_list[i] = 90
-                        elif i == 2:
-                            self.angle_list[i] = 135
+            if received:
+                if received["ORIENT"] != [-1, -1, -1]:
+                    last_received = received
+                    self.angle_list = [section for section in last_received["ORIENT"]]
+                    for i in range(0, 3):
+                        if self.angle_list[i] < 0:
+                            if i == 0:
+                                self.angle_list[i] = 45
+                            elif i == 1:
+                                self.angle_list[i] = 90
+                            elif i == 2:
+                                self.angle_list[i] = 135
             print(f"Debug: received App: {self.angle_list}")
             time.sleep(0.3)
 

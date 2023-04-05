@@ -58,7 +58,8 @@ class SerialComm:
             print(f"Restarting Serial: {self.__str__()}")
 
     def receive_query(self):
-        to_return = {"ORIENT": [-1, -1, -1]}
+        to_return = {"ORIENT": [-1, -1, -1],
+                     "DISTANCE": [-1, -1, -1]}
         if self.connection_state:
             try:
                 while self.ser.in_waiting > 0:
@@ -80,7 +81,7 @@ class SerialComm:
                 print("Serial Closed")
                 self.connection_state = False
                 self.ser = None
-                to_return = {"ORIENT": [-1, -1, -1]}
+                to_return = {"ORIENT": [-1, -1, -1], "DISTANCE": [-1, -1, -1]}
         else:
             print("Communication Status is False")
             self.ser = None
@@ -89,6 +90,7 @@ class SerialComm:
                           baudrate=self.baudrate, timeout=self.timeout)
             self.connection_state = True
             print(f"Restarting Serial: {self.__str__()}")
+
         return to_return
 
     def __str__(self):
