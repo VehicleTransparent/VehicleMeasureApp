@@ -16,18 +16,18 @@ class FrontAppRPi:
         self.angle_list = [-1, -1, -1]
         self.dist_list = [-1, -1, -1]
         self.thread_activated = False
-        
+
     def orient(self):
         while True:
             if not self.thread_activated:
                 self.thread_activated = True
                 self.t_get_dist_asynch.start()
-                
+
             for section in range(0, 3):
-                print(f"Angle to be applied on Servo {1+section} : {self.angle_list[section]}")
+                print(f"Angle to be applied on Servo {1 + section} : {self.angle_list[section]}")
                 self.servo_obj_list[section].set_angle(self.angle_list[section])
                 self.dist_list[section] = self.us_obj_list[section].distance_read()
-            
+
             print(f'angle_list {self.angle_list}')
             print(f'dist_list {self.dist_list}')
             self.ser_get_angle.send_query(self.dist_list)
@@ -35,7 +35,19 @@ class FrontAppRPi:
 
     def angle_fetcher(self):
         while True:
-            self.angle_list = [section for section in self.ser_get_angle.receive_query()]
+            received = self.ser_get_angle.receive_query()
+            if received != [-1, -1, -1]:
+                last_received = received
+                self.angle_list = [section for section in self.ser_get_angle.receive_query()]
+                for i in range(0, 3):
+                    if self.angle_list[i] < 0:
+                        if i == 0:
+                            self.angle_list[i] = 45
+                        elif i == 1:
+                            self.angle_list[i] = 90
+                        elif i == 2:
+                            self.angle_list[i] = 135
+            print(f"Debug: received App: {self.angle_list}")
             time.sleep(0.3)
 
 
