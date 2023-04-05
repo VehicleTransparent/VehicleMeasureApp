@@ -35,9 +35,9 @@ class BackAppRPi:
     def angle_fetcher(self):
         while True:
             received = self.ser_get_angle.receive_query()
-            if received != [-1, -1, -1]:
+            if received["ORIENT"] != [-1, -1, -1]:
                 last_received = received
-                self.angle_list = [section for section in self.ser_get_angle.receive_query()]
+                self.angle_list = [section for section in last_received["ORIENT"]]
                 for i in range(0, 3):
                     if self.angle_list[i] < 0:
                         if i == 0:

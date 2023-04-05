@@ -1,5 +1,6 @@
 import serial, time, json
 
+
 class SerialComm:
     def __init__(self, name, port="COM4", parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
                  bytesize=serial.EIGHTBITS, baudrate=9600, timeout=1):
@@ -40,7 +41,7 @@ class SerialComm:
                 self.ser.write(encoded_data)
 
                 print(f">>>Serial Debug Command: {data_query}")
-                
+
             except Exception:
                 print("Communication Breaked & Reading")
                 print("Serial Closed")
@@ -50,13 +51,14 @@ class SerialComm:
         else:
             print("Communication Status is False")
             self.ser = None
-            self.__init__(name=self.name, port=self.port, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize,
-                          baudrate=self.baudrate, timeout=self.timeout)            
+            self.__init__(name=self.name, port=self.port, parity=self.parity, stopbits=self.stopbits,
+                          bytesize=self.bytesize,
+                          baudrate=self.baudrate, timeout=self.timeout)
             self.connection_state = True
             print(f"Restarting Serial: {self.__str__()}")
 
     def receive_query(self):
-        to_return = [-1, -1, -1]
+        to_return = {"ORIENT": [-1, -1, -1]}
         if self.connection_state:
             try:
                 while self.ser.in_waiting > 0:
@@ -78,15 +80,16 @@ class SerialComm:
                 print("Serial Closed")
                 self.connection_state = False
                 self.ser = None
-                to_return = [-1, -1, -1]
+                to_return = {"ORIENT": [-1, -1, -1]}
         else:
             print("Communication Status is False")
             self.ser = None
-            self.__init__(name=self.name, port=self.port, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize,
+            self.__init__(name=self.name, port=self.port, parity=self.parity, stopbits=self.stopbits,
+                          bytesize=self.bytesize,
                           baudrate=self.baudrate, timeout=self.timeout)
             self.connection_state = True
             print(f"Restarting Serial: {self.__str__()}")
         return to_return
 
-    def __str__ (self):
+    def __str__(self):
         return f"NAME:{self.name}, PORT:{self.port}, Baudrate:{self.baudrate}, TimeOut:{self.timeout}"
