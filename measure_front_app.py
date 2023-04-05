@@ -1,9 +1,9 @@
-import time, cv2, sys
-
+import time, sys
 from distances.dist_measure import *
 from distances.dist_angle import *
 from threading import Thread
 from communication.com_serial import SerialComm
+
 
 class FrontAppRPi:
     def __init__(self):
@@ -17,8 +17,7 @@ class FrontAppRPi:
         self.dist_list = [-1, -1, -1]
         self.thread_activated = False
         
-        
-    def orinet(self):
+    def orient(self):
         while True:
             if not self.thread_activated:
                 self.thread_activated = True
@@ -41,4 +40,4 @@ class FrontAppRPi:
 
 
 run = FrontAppRPi()
-run.orinet()
+run.orient()
