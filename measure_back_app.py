@@ -8,8 +8,8 @@ from communication.com_serial import SerialComm
 class BackAppRPi:
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.servo_obj_list = Angles(servo_pin=18)
-        self.us_obj_list = Measure(trig=27, echo=22)
+        self.servo_obj_list = Angles(servo_pin=12)
+        self.us_obj_list = Measure(trig=23, echo=24)
 
         self.ser_get_angle = SerialComm(port="/dev/ttyUSB0", name="Dist_Fetcher", baudrate=115200)
         self.t_get_dist_asynch = Thread(target=self.angle_fetcher, args=[], daemon=True)
@@ -25,7 +25,7 @@ class BackAppRPi:
 
             if self.angle_list[0] != -1:
                 print(f"Angle to be applied on Servo : {self.angle_list[0]}")
-                self.servo_obj_list[0].set_angle(self.angle_list[0])
+                self.servo_obj_list[0].set_angle(self.angle_list[1])
                 self.dist_list[0] = self.us_obj_list[0].distance_read()
 
             print(f'angle_list {self.angle_list}')
