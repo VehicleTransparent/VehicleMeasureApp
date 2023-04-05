@@ -1,5 +1,4 @@
-import time, cv2, sys
-
+import time, sys
 from distances.dist_measure import *
 from distances.dist_angle import *
 from threading import Thread
@@ -18,7 +17,7 @@ class BackAppRPi:
         self.dist_list = [-1]
         self.thread_activated = False
 
-    def orinet(self):
+    def orient(self):
         while True:
             if not self.thread_activated:
                 self.thread_activated = True
@@ -41,4 +40,4 @@ class BackAppRPi:
 
 
 run = BackAppRPi()
-run.orinet()
+run.orient()
