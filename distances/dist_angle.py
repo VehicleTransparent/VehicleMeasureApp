@@ -5,7 +5,6 @@ import RPi.GPIO as GPIO
 
 class Angles:
     def __init__(self, servo_pin):
-        GPIO.setmode(GPIO.BOARD)
         GPIO.setup(servo_pin, GPIO.OUT)
         self.servo_pin = servo_pin
 

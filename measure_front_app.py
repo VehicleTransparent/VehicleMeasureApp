@@ -7,6 +7,7 @@ from communication.com_serial import SerialComm
 
 class FrontAppRPi:
     def __init__(self):
+        GPIO.setmode(GPIO.BCM)
         self.servo_obj_list = [Angles(servo_pin=18), Angles(servo_pin=12), Angles(servo_pin=13)]
         self.us_obj_list = [Measure(trig=27, echo=22), Measure(trig=23, echo=24), Measure(trig=5, echo=6)]
 
@@ -33,11 +34,11 @@ class FrontAppRPi:
             self.ser_get_angle.send_query(self.dist_list)
             time.sleep(1)
 
-
     def angle_fetcher(self):
         while True:
             self.angle_list = [section for section in self.ser_get_angle.receive_query()]
             time.sleep(0.3)
+
 
 run = FrontAppRPi()
 run.orinet()

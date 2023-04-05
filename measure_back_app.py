@@ -8,6 +8,7 @@ from communication.com_serial import SerialComm
 
 class BackAppRPi:
     def __init__(self):
+        GPIO.setmode(GPIO.BCM)
         self.servo_obj_list = Angles(servo_pin=18)
         self.us_obj_list = Measure(trig=27, echo=22)
 

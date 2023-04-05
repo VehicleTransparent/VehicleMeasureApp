@@ -11,7 +11,6 @@ class Measure:
     
     def __init__(self, trig, echo):
         if Measure.total_unit < 3:
-            GPIO.setmode(GPIO.BCM)
             GPIO.setwarnings(False)
             
             # two arguments number of trig and echo in GPIO
