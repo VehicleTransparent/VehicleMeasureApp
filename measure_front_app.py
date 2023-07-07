@@ -34,9 +34,9 @@ class FrontAppRPi:
             for scan_angle in range(0, self.resolutoin):
                 print(f"Angle {scan_angle} to orient Servo")
                 self.servo_obj_list.set_angle(self.angle_list[scan_angle])
-                time.sleep(0.2)
+                time.sleep(0.05)
                 self.dist_list[scan_angle] = self.us_obj_list.distance_read()
-                time.sleep(0.2)
+                time.sleep(0.05)
 
             print(f'angle_list {self.angle_list}')
 
