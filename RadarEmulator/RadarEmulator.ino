@@ -24,10 +24,10 @@ void COMM_vSendData (void)
 
 String constructStr(void) {
   String dataToSend = "";
-  for (int currentIndex = 0 ; currentIndex < RESOLUTION-1; currentIndex ++)
+  for (int currentIndex = RESOLUTION-1 ; currentIndex > 0; currentIndex --)
   {
     dataToSend += String(distance[currentIndex]) + ", ";
   }
-  dataToSend += distance[RESOLUTION-1];
+  dataToSend += distance[0];
   return dataToSend;
 }
