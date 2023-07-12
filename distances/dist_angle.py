@@ -14,4 +14,4 @@ class Angles:
 
     def set_angle(self, angle):
         self.pwm_ch.ChangeDutyCycle(map_values_ranges(angle, 180, 0, 2, 12))
-        time.sleep(0.5)
+        

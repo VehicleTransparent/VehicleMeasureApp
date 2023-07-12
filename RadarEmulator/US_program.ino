@@ -1,13 +1,12 @@
 #include "GlobalEntities.h"
 #include "US_interface.h"
 
-void US_vInit(void)
-{
-  pinMode(PIN_TRIG, OUTPUT); // Sets the PIN_TRIG as an Output
-  pinMode(PIN_ECHO, INPUT); // Sets the PIN_ECHO as an Input
+void US_vInit(void) {
+  pinMode(PIN_TRIG, OUTPUT);  // Sets the PIN_TRIG as an Output
+  pinMode(PIN_ECHO, INPUT);   // Sets the PIN_ECHO as an Input
 }
 
-void US_vGetDistance (void){
+void US_vGetDistance(void) {
   // Clears the PIN_TRIG
   digitalWrite(PIN_TRIG, LOW);
   delayMicroseconds(2);

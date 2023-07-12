@@ -5,7 +5,7 @@
 void setup() {
   US_vInit();
   SERV_vInit();
-  Serial.begin(BAUDRATE); // Starts the serial communication
+  Serial.begin(BAUDRATE);  // Starts the serial communication
 }
 
 void loop() {
@@ -16,16 +16,14 @@ void loop() {
   delay(15);
 }
 
-void COMM_vSendData (void)
-{
+void COMM_vSendData(void) {
   // Prints the distance on the Serial Monitor
   Serial.println("{\"DISTANCE\": [" + constructStr() + "] }");
 }
 
 String constructStr(void) {
   String dataToSend = "";
-  for (int currentIndex = RESOLUTION-1 ; currentIndex > 0; currentIndex --)
-  {
+  for (int currentIndex = RESOLUTION - 1; currentIndex > 0; currentIndex--) {
     dataToSend += String(distance[currentIndex]) + ", ";
   }
   dataToSend += distance[0];

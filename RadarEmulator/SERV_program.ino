@@ -1,11 +1,28 @@
 #include "GlobalEntities.h"
 #include "SERV_interface.h"
+
+#if TARGET == 0
 #include <Servo.h>
+
+#elif TARGET == 1
+#include <ESP32Servo.h>
+#endif
 
 Servo angleorienter;
 void SERV_vInit()
 {
+  #if TARGET == 0
   angleorienter.attach(PIN_SERVO);  // attaches the servo on pin 9 to the servo object
+
+  #elif TARGET == 1
+  ESP32PWM::allocateTimer(0);
+	ESP32PWM::allocateTimer(1);
+	ESP32PWM::allocateTimer(2);
+	ESP32PWM::allocateTimer(3);
+	angleorienter.setPeriodHertz(50);    
+	angleorienter.attach(PIN_SERVO, 500, 2400); 
+  #endif
+  
 }
 
 void SERV_vOrient (float angle) {

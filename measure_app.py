@@ -27,18 +27,30 @@ class FrontAppRPi:
                 self.t_get_dist_asynch.start()
             print(f'dist_list {self.dist_list}')
             self.ser_get_angle.send_query({"DISTANCE": self.dist_list})
-            time.sleep(1)
+            time.sleep(0.6)
 
     def angle_scanner(self):
         while True:
-            for scan_angle in range(0, self.resolutoin):
-                print(f"Angle {scan_angle} to orient Servo")
-                self.servo_obj_list.set_angle(self.angle_list[scan_angle])
-                time.sleep(0.05)
-                self.dist_list[scan_angle] = self.us_obj_list.distance_read()
-                time.sleep(0.05)
+            self.angle_orientCW()
+            self.angle_orientCCW()
+            
 
             print(f'angle_list {self.angle_list}')
+    def angle_orientCW (self):
+        for scan_angle in range(0, self.resolutoin):
+            print(f"Angle {scan_angle} to orient Servo")
+            self.servo_obj_list.set_angle(self.angle_list[scan_angle])
+            #time.sleep(0.05)
+            self.dist_list[scan_angle] = self.us_obj_list.distance_read()
+            time.sleep(0.1)
 
+    def angle_orientCCW (self):
+        for scan_angle in range(0, self.resolutoin):
+            print(f"Angle {scan_angle} to orient Servo")
+            self.servo_obj_list.set_angle(self.angle_list[self.resolutoin - scan_angle - 1])
+            #time.sleep(0.05)
+            self.dist_list[self.resolutoin - scan_angle - 1] = self.us_obj_list.distance_read()
+            time.sleep(0.1)
+        
 run = FrontAppRPi()
 run.periodic_update()
